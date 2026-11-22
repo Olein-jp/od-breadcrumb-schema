@@ -1,6 +1,6 @@
 {
   "$schema": "https://schemas.wp.org/trunk/wp-env.json",
-  "phpVersion": "7.4",
+  "phpVersion": "8.2",
   "plugins": [
     "."
   ],
@@ -8,5 +8,7 @@
     "WP_DEBUG": true,
     "SCRIPT_DEBUG": true
   },
-  "autoPort": true
+  "autoPort": true,
+  "core": "WordPress/WordPress#7.0",
+  "testsEnvironment": false
 }

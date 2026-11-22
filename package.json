@@ -1,6 +1,6 @@
 {
   "name": "od-breadcrumb-schema",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "private": true,
   "engines": {
     "node": ">=24.18.0",
@@ -14,9 +14,8 @@
     "env:cli": "wp-env run cli wp",
     "composer": "wp-env run cli --env-cwd=wp-content/plugins/od-breadcrumb-schema composer",
     "lint:php": "wp-env run cli --env-cwd=wp-content/plugins/od-breadcrumb-schema composer lint",
-    "i18n:pot": "wp-env run cli --env-cwd=wp-content/plugins/od-breadcrumb-schema wp i18n make-pot . languages/od-breadcrumb-schema.pot --domain=od-breadcrumb-schema --exclude=vendor,node_modules,dist",
-    "i18n:mo": "wp-env run cli --env-cwd=wp-content/plugins/od-breadcrumb-schema wp i18n make-mo languages",
-    "build": "python3 scripts/build-release.py"
+    "build": "python3 scripts/build-release.py",
+    "test": "wp-env run cli --env-cwd=wp-content/plugins/od-breadcrumb-schema php tests/run.php /var/www/html"
   },
   "devDependencies": {
     "@wordpress/env": "^12.2.0"

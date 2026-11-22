@@ -14,14 +14,13 @@ jobs:
       - uses: actions/checkout@v7
       - uses: shivammathur/setup-php@v2
         with:
-          php-version: '7.4'
-          tools: composer:v2, wp-cli
+          php-version: '8.2'
+          tools: composer:v2
           coverage: none
       - run: composer validate --strict
       - run: composer install --prefer-dist --no-interaction --no-progress
-      - run: php -l od-breadcrumb-schema.php
+      - run: php -l od-breadcrumb-schema.php && find includes tests -name '*.php' -print0 | xargs -0 -n1 php -l
       - run: composer lint
-      - run: wp i18n make-mo languages
       - name: タグと配布内容を検証して ZIP を作成
         run: python3 scripts/build-release.py "$RELEASE_TAG"
         env:

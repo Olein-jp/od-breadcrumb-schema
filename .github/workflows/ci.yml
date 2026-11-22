@@ -6,16 +6,23 @@ on:
 permissions:
   contents: read
 jobs:
-  lint:
+  verify:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v7
       - uses: shivammathur/setup-php@v2
         with:
-          php-version: '7.4'
+          php-version: '8.2'
           tools: composer:v2
           coverage: none
       - run: composer validate --strict
       - run: composer install --prefer-dist --no-interaction --no-progress
-      - run: php -l od-breadcrumb-schema.php
+      - run: php -l od-breadcrumb-schema.php && find includes tests -name '*.php' -print0 | xargs -0 -n1 php -l
       - run: composer lint
+      - uses: actions/setup-node@v7
+        with:
+          node-version-file: .nvmrc
+      - run: npm ci
+      - run: npm run env:start
+      - run: npm run env:cli -- plugin activate od-breadcrumb-schema
+      - run: npm test
