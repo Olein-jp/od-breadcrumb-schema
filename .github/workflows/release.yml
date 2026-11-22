@@ -1,0 +1,34 @@
+name: リリース
+on:
+  push:
+    tags: ['[0-9]*.[0-9]*.[0-9]*']
+permissions:
+  contents: write
+concurrency:
+  group: release-${{ github.ref }}
+  cancel-in-progress: false
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: '7.4'
+          tools: composer:v2, wp-cli
+          coverage: none
+      - run: composer validate --strict
+      - run: composer install --prefer-dist --no-interaction --no-progress
+      - run: php -l od-breadcrumb-schema.php
+      - run: composer lint
+      - run: wp i18n make-mo languages
+      - name: タグと配布内容を検証して ZIP を作成
+        run: python3 scripts/build-release.py "$RELEASE_TAG"
+        env:
+          RELEASE_TAG: ${{ github.ref_name }}
+      - name: ZIP を添付して公開
+        run: gh release create "$RELEASE_TAG" dist/od-breadcrumb-schema.zip --verify-tag --title "$RELEASE_TAG" --generate-notes
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }}
+          RELEASE_TAG: ${{ github.ref_name }}

@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<ruleset name="OD Breadcrumb Schema">
+  <description>プラグイン本体の WordPress コーディング規約。</description>
+  <file>od-breadcrumb-schema.php</file>
+  <arg name="extensions" value="php"/>
+  <arg name="colors"/>
+  <rule ref="WordPress"/>
+  <config name="text_domain" value="od-breadcrumb-schema"/>
+  <rule ref="WordPress.NamingConventions.PrefixAllGlobals">
+    <properties>
+      <property name="prefixes" type="array">
+        <element value="od_breadcrumb_schema"/>
+      </property>
+    </properties>
+  </rule>
+</ruleset>
